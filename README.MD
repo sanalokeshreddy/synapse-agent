@@ -1,75 +1,97 @@
-🧠 Synapse Agent: Deep Research Assistant
-Synapse Agent is a powerful, locally-run AI research assistant. It leverages a Retrieval-Augmented Generation (RAG) pipeline to analyze documents you upload, answer complex questions, and generate comprehensive research reports—all without your data ever leaving your machine.
+# 🧠 Synapse Agent: 100% Private Deep Research Assistant
 
-This project is a submission for the CodeMate Hackathon, built to satisfy the "Deep Researcher Agent" problem statement, emphasizing local embedding, multi-step reasoning, and zero reliance on external APIs.
+Synapse Agent is a sophisticated, fully private deep research assistant designed to run entirely on your local machine. It allows you to upload documents and engage in a deep, context-aware dialogue, with an AI that performs multi-step reasoning to provide comprehensive, synthesized answers.
 
+This project was developed for the **#SRMHacksWithCodemate** Hackathon, specifically addressing the "Deep Researcher Agent" problem statement by creating a solution that handles all embedding, reasoning, and generation locally, without relying on external APIs. It builds upon the principles of local-first AI that I explored in my **Gemma Web** project, scaling up the capabilities to a more powerful server-side environment.
 
-Key Features
-100% Local & Private: All models (for embeddings and generation) run directly on your machine. Your documents and queries are never sent to the cloud.
+## ✨ Key Features
 
-Deep Research Engine: Implements a multi-step research process: query decomposition, source identification, information extraction, and synthesis.
+* **100% Local & Private**: All processing, from document analysis to AI reasoning, happens on your machine. Your data never leaves your computer.
+* **Advanced Multi-Step Reasoning Pipeline**: The agent doesn't just find information; it *researches*. For each query, it performs:
+   1. **Query Decomposition**: Breaks a complex question into smaller, manageable sub-questions.
+   2. **Information Extraction**: Retrieves relevant data for each sub-question from your documents.
+   3. **Synthesis**: Synthesizes the extracted information into a single, coherent answer.
+   4. **Validation**: Cross-references the final answer against the source documents to ensure accuracy.
+* **Transparent Research Process**: The user interface allows you to expand a "View Research Process" section to see exactly how the agent arrived at its conclusion, step-by-step.
+* **Interactive Query Refinement**: After providing an answer, the agent suggests intelligent follow-up questions to help you dig deeper into your research.
+* **Multi-Format Report Export**: Export your full research session, including the final answer, sources, and reasoning steps, into beautifully formatted **PDF**, **Markdown**, or **HTML** reports.
+* **Robust Client-Server Architecture**: A responsive **Streamlit** frontend communicates with a powerful **FastAPI** backend, which handles all the heavy lifting in the background.
 
-Document Agnostic: Supports PDF, TXT, and DOCX files for analysis.
+## 🛠️ Tech Stack
 
-Interactive UI: A user-friendly interface built with Streamlit for uploading documents and having conversations with the agent.
+* **Backend**: FastAPI, Python
+* **Frontend**: Streamlit
+* **LLM Integration**: `llama-cpp-python` running a GGUF version of `Mistral-7B-Instruct-v0.2`
+* **Vector Embeddings & Search**: `sentence-transformers` & `FAISS`
+* **Document Processing**: `langchain`, `pypdf`, `python-docx`
+* **Report Generation**: `fpdf2`, `markdown`
 
-Exportable Reports: Generate and export detailed research reports in PDF, Markdown, or HTML formats.
+## 🚀 Getting Started
 
-Smart Query Refinement: Suggests intelligent follow-up questions to help you dig deeper into your research.
+Follow these instructions to set up and run Synapse Agent on your local machine.
 
-Tech Stack
-Backend: FastAPI, Llama-cpp-python
+### Prerequisites
 
-Frontend: Streamlit
+* Python 3.9+
+* Git
 
-AI Models:
+### Step 1: Clone the Repository
 
-all-MiniLM-L6-v2 (for sentence embeddings)
+```bash
+git clone https://github.com/sanalokeshreddy/synapse-agent.git
+cd synapse-agent
+```
 
-Mistral-7B-Instruct-v0.2 (GGUF for LLM reasoning)
+### Step 2: Create and Activate a Virtual Environment
 
-Vector Store: FAISS (for efficient similarity search)
+It is highly recommended to use a virtual environment to manage dependencies.
 
-🚀 Getting Started
-Follow these steps to set up and run Synapse Agent on your local machine.
-
-Step 1: Clone the Repository
-git clone [https://github.com/your-username/synapse_agent.git](https://github.com/your-username/synapse_agent.git)
-cd synapse_agent
-
-Step 2: Download the AI Model
-This project requires a local Large Language Model. Run the provided script to download the necessary model file (~2.4 GB).
-
-python download_model.py
-
-Step 3: Create and Activate a Virtual Environment
-It's highly recommended to use a virtual environment to manage project dependencies.
-
-# Create the virtual environment
+```bash
+# Create the environment
 python -m venv venv_stable
 
-# Activate it
+# Activate the environment
 # On Windows (PowerShell):
 .\venv_stable\Scripts\Activate.ps1
+
 # On macOS/Linux:
 source venv_stable/bin/activate
+```
 
-Step 4: Install Dependencies
-Install all the required Python packages.
+### Step 3: Install Dependencies
 
+Install all the required Python packages using pip.
+
+```bash
 pip install -r requirements.txt
+```
 
-Step 5: Run the Application
-The application consists of two parts: the FastAPI backend and the Streamlit frontend. You need to run them in two separate terminals.
+### Step 4: Download the AI Model
 
-Terminal 1: Start the FastAPI Backend
+Before you can run the agent, you need to download the local LLM. This script will download the `mistral-7b-instruct-v0.2.Q2_K.gguf` model (~2.4 GB).
 
-# Make sure your virtual environment is active
+```bash
+python download_model.py
+```
+
+### Step 5: Run the Application (Two Terminals Required)
+
+Synapse Agent runs as two separate processes: the backend server and the frontend interface. You will need to open **two separate terminals** for this.
+
+#### Terminal 1: Start the FastAPI Backend
+
+In your first terminal (with the virtual environment activated), run the following command to start the backend server:
+
+```bash
 python -m uvicorn main:app --reload --host 127.0.0.1 --port 8080
+```
 
-Terminal 2: Start the Streamlit Frontend
+#### Terminal 2: Start the Streamlit Frontend
 
-# Make sure your virtual environment is active in this terminal too
+In your second terminal (also with the virtual environment activated), run this command to start the user interface:
+
+```bash
 streamlit run app.py
+```
 
-Once both are running, your web browser should open to the Streamlit interface, and you can start using the Synapse Agent!
+Once both servers are running, open your web browser and navigate to the URL provided by Streamlit (typically `http://localhost:8501`) to start using Synapse Agent!
